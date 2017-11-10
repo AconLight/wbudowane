@@ -1,0 +1,282 @@
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cc9uJO7R.s 			page 1
+
+
+   1              		.code	16
+   2              		.file	"pacia.c"
+   3              		.section	.debug_abbrev,"",%progbits
+   4              	.Ldebug_abbrev0:
+   5              		.section	.debug_info,"",%progbits
+   6              	.Ldebug_info0:
+   7              		.section	.debug_line,"",%progbits
+   8              	.Ldebug_line0:
+   9 0000 33000000 		.text
+   9      02001E00 
+   9      00000201 
+   9      FB0E0D00 
+   9      01010101 
+  10              	.Ltext0:
+  11              		.align	2
+  12              		.global	paciaW
+  13              		.code 16
+  14              		.thumb_func
+  15              		.type	paciaW, %function
+  16              	paciaW:
+  17              	.LFB2:
+  18              		.file 1 "pacia.c"
+   1:pacia.c       **** /******************************************************************************
+   2:pacia.c       ****  * File:
+   3:pacia.c       ****  *    PACIA.C
+   4:pacia.c       ****  *
+   5:pacia.c       ****  * Description:
+   6:pacia.c       ****  *    LCD+SPI
+   7:pacia.c       ****  *
+   8:pacia.c       ****  *****************************************************************************/
+   9:pacia.c       **** 
+  10:pacia.c       **** /******************************************************************************
+  11:pacia.c       ****  * Includes
+  12:pacia.c       ****  *****************************************************************************/
+  13:pacia.c       **** #include "../pre_emptive_os/api/osapi.h"
+  14:pacia.c       **** #include "../pre_emptive_os/api/general.h"
+  15:pacia.c       **** #include <lpc2xxx.h>
+  16:pacia.c       **** 
+  17:pacia.c       **** #include "pins.h"
+  18:pacia.c       **** #include "timer.h"
+  19:pacia.c       **** 
+  20:pacia.c       **** void paciaW(){
+  19              		.loc 1 20 0
+  20              		@ lr needed for prologue
+  21:pacia.c       **** 	
+  22:pacia.c       **** }
+  21              		.loc 1 22 0
+  22              		@ sp needed for prologue
+  23 0000 7047     		bx	lr
+  24              	.LFE2:
+  25              		.size	paciaW, .-paciaW
+  26              		.section	.debug_frame,"",%progbits
+  27              	.Lframe0:
+  28 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
+  29              	.LSCIE0:
+  30 0004 FFFFFFFF 		.4byte	0xffffffff
+  31 0008 01       		.byte	0x1
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cc9uJO7R.s 			page 2
+
+
+  32 0009 00       		.ascii	"\000"
+  33 000a 01       		.uleb128 0x1
+  34 000b 7C       		.sleb128 -4
+  35 000c 0E       		.byte	0xe
+  36 000d 0C       		.byte	0xc
+  37 000e 0D       		.uleb128 0xd
+  38 000f 00       		.uleb128 0x0
+  39              		.align	2
+  40              	.LECIE0:
+  41              	.LSFDE0:
+  42 0010 0C000000 		.4byte	.LEFDE0-.LASFDE0
+  43              	.LASFDE0:
+  44 0014 00000000 		.4byte	.Lframe0
+  45 0018 00000000 		.4byte	.LFB2
+  46 001c 02000000 		.4byte	.LFE2-.LFB2
+  47              		.align	2
+  48              	.LEFDE0:
+  49              		.text
+  50              	.Letext0:
+  51 0002 C046     		.section	.debug_info
+  52 0000 65000000 		.4byte	0x65
+  53 0004 0200     		.2byte	0x2
+  54 0006 00000000 		.4byte	.Ldebug_abbrev0
+  55 000a 04       		.byte	0x4
+  56 000b 01       		.uleb128 0x1
+  57 000c 00000000 		.4byte	.Ldebug_line0
+  58 0010 02000000 		.4byte	.Letext0
+  59 0014 00000000 		.4byte	.Ltext0
+  60 0018 6B000000 		.4byte	.LASF6
+  61 001c 01       		.byte	0x1
+  62 001d 81000000 		.4byte	.LASF7
+  63 0021 20000000 		.4byte	.LASF8
+  64 0025 02       		.uleb128 0x2
+  65 0026 00000000 		.4byte	.LASF0
+  66 002a 01       		.byte	0x1
+  67 002b 08       		.byte	0x8
+  68 002c 02       		.uleb128 0x2
+  69 002d 4B000000 		.4byte	.LASF1
+  70 0031 02       		.byte	0x2
+  71 0032 07       		.byte	0x7
+  72 0033 02       		.uleb128 0x2
+  73 0034 5E000000 		.4byte	.LASF2
+  74 0038 04       		.byte	0x4
+  75 0039 07       		.byte	0x7
+  76 003a 02       		.uleb128 0x2
+  77 003b 89000000 		.4byte	.LASF3
+  78 003f 01       		.byte	0x1
+  79 0040 06       		.byte	0x6
+  80 0041 02       		.uleb128 0x2
+  81 0042 77000000 		.4byte	.LASF4
+  82 0046 02       		.byte	0x2
+  83 0047 05       		.byte	0x5
+  84 0048 03       		.uleb128 0x3
+  85 0049 696E7400 		.ascii	"int\000"
+  86 004d 04       		.byte	0x4
+  87 004e 05       		.byte	0x5
+  88 004f 02       		.uleb128 0x2
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cc9uJO7R.s 			page 3
+
+
+  89 0050 0E000000 		.4byte	.LASF5
+  90 0054 04       		.byte	0x4
+  91 0055 07       		.byte	0x7
+  92 0056 04       		.uleb128 0x4
+  93 0057 01       		.byte	0x1
+  94 0058 95000000 		.4byte	.LASF9
+  95 005c 01       		.byte	0x1
+  96 005d 14       		.byte	0x14
+  97 005e 00000000 		.4byte	.LFB2
+  98 0062 02000000 		.4byte	.LFE2
+  99 0066 01       		.byte	0x1
+ 100 0067 5D       		.byte	0x5d
+ 101 0068 00       		.byte	0x0
+ 102              		.section	.debug_abbrev
+ 103 0000 01       		.uleb128 0x1
+ 104 0001 11       		.uleb128 0x11
+ 105 0002 01       		.byte	0x1
+ 106 0003 10       		.uleb128 0x10
+ 107 0004 06       		.uleb128 0x6
+ 108 0005 12       		.uleb128 0x12
+ 109 0006 01       		.uleb128 0x1
+ 110 0007 11       		.uleb128 0x11
+ 111 0008 01       		.uleb128 0x1
+ 112 0009 25       		.uleb128 0x25
+ 113 000a 0E       		.uleb128 0xe
+ 114 000b 13       		.uleb128 0x13
+ 115 000c 0B       		.uleb128 0xb
+ 116 000d 03       		.uleb128 0x3
+ 117 000e 0E       		.uleb128 0xe
+ 118 000f 1B       		.uleb128 0x1b
+ 119 0010 0E       		.uleb128 0xe
+ 120 0011 00       		.byte	0x0
+ 121 0012 00       		.byte	0x0
+ 122 0013 02       		.uleb128 0x2
+ 123 0014 24       		.uleb128 0x24
+ 124 0015 00       		.byte	0x0
+ 125 0016 03       		.uleb128 0x3
+ 126 0017 0E       		.uleb128 0xe
+ 127 0018 0B       		.uleb128 0xb
+ 128 0019 0B       		.uleb128 0xb
+ 129 001a 3E       		.uleb128 0x3e
+ 130 001b 0B       		.uleb128 0xb
+ 131 001c 00       		.byte	0x0
+ 132 001d 00       		.byte	0x0
+ 133 001e 03       		.uleb128 0x3
+ 134 001f 24       		.uleb128 0x24
+ 135 0020 00       		.byte	0x0
+ 136 0021 03       		.uleb128 0x3
+ 137 0022 08       		.uleb128 0x8
+ 138 0023 0B       		.uleb128 0xb
+ 139 0024 0B       		.uleb128 0xb
+ 140 0025 3E       		.uleb128 0x3e
+ 141 0026 0B       		.uleb128 0xb
+ 142 0027 00       		.byte	0x0
+ 143 0028 00       		.byte	0x0
+ 144 0029 04       		.uleb128 0x4
+ 145 002a 2E       		.uleb128 0x2e
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cc9uJO7R.s 			page 4
+
+
+ 146 002b 00       		.byte	0x0
+ 147 002c 3F       		.uleb128 0x3f
+ 148 002d 0C       		.uleb128 0xc
+ 149 002e 03       		.uleb128 0x3
+ 150 002f 0E       		.uleb128 0xe
+ 151 0030 3A       		.uleb128 0x3a
+ 152 0031 0B       		.uleb128 0xb
+ 153 0032 3B       		.uleb128 0x3b
+ 154 0033 0B       		.uleb128 0xb
+ 155 0034 11       		.uleb128 0x11
+ 156 0035 01       		.uleb128 0x1
+ 157 0036 12       		.uleb128 0x12
+ 158 0037 01       		.uleb128 0x1
+ 159 0038 40       		.uleb128 0x40
+ 160 0039 0A       		.uleb128 0xa
+ 161 003a 00       		.byte	0x0
+ 162 003b 00       		.byte	0x0
+ 163 003c 00       		.byte	0x0
+ 164              		.section	.debug_pubnames,"",%progbits
+ 165 0000 19000000 		.4byte	0x19
+ 166 0004 0200     		.2byte	0x2
+ 167 0006 00000000 		.4byte	.Ldebug_info0
+ 168 000a 69000000 		.4byte	0x69
+ 169 000e 56000000 		.4byte	0x56
+ 170 0012 70616369 		.ascii	"paciaW\000"
+ 170      615700
+ 171 0019 00000000 		.4byte	0x0
+ 172              		.section	.debug_aranges,"",%progbits
+ 173 0000 1C000000 		.4byte	0x1c
+ 174 0004 0200     		.2byte	0x2
+ 175 0006 00000000 		.4byte	.Ldebug_info0
+ 176 000a 04       		.byte	0x4
+ 177 000b 00       		.byte	0x0
+ 178 000c 0000     		.2byte	0x0
+ 179 000e 0000     		.2byte	0x0
+ 180 0010 00000000 		.4byte	.Ltext0
+ 181 0014 02000000 		.4byte	.Letext0-.Ltext0
+ 182 0018 00000000 		.4byte	0x0
+ 183 001c 00000000 		.4byte	0x0
+ 184              		.section	.debug_str,"MS",%progbits,1
+ 185              	.LASF0:
+ 186 0000 756E7369 		.ascii	"unsigned char\000"
+ 186      676E6564 
+ 186      20636861 
+ 186      7200
+ 187              	.LASF5:
+ 188 000e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 188      20756E73 
+ 188      69676E65 
+ 188      6420696E 
+ 188      7400
+ 189              	.LASF8:
+ 190 0020 2F637967 		.ascii	"/cygdrive/c/Users/embedded/Desktop/PROGRAM\000"
+ 190      64726976 
+ 190      652F632F 
+ 190      55736572 
+ 190      732F656D 
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cc9uJO7R.s 			page 5
+
+
+ 191              	.LASF1:
+ 192 004b 73686F72 		.ascii	"short unsigned int\000"
+ 192      7420756E 
+ 192      7369676E 
+ 192      65642069 
+ 192      6E7400
+ 193              	.LASF2:
+ 194 005e 756E7369 		.ascii	"unsigned int\000"
+ 194      676E6564 
+ 194      20696E74 
+ 194      00
+ 195              	.LASF6:
+ 196 006b 474E5520 		.ascii	"GNU C 4.1.1\000"
+ 196      4320342E 
+ 196      312E3100 
+ 197              	.LASF4:
+ 198 0077 73686F72 		.ascii	"short int\000"
+ 198      7420696E 
+ 198      7400
+ 199              	.LASF7:
+ 200 0081 70616369 		.ascii	"pacia.c\000"
+ 200      612E6300 
+ 201              	.LASF3:
+ 202 0089 7369676E 		.ascii	"signed char\000"
+ 202      65642063 
+ 202      68617200 
+ 203              	.LASF9:
+ 204 0095 70616369 		.ascii	"paciaW\000"
+ 204      615700
+ 205              		.ident	"GCC: (GNU) 4.1.1"
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cc9uJO7R.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 pacia.c
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cc9uJO7R.s:1      .text:00000000 $t
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cc9uJO7R.s:16     .text:00000000 paciaW
+
+NO UNDEFINED SYMBOLS

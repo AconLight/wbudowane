@@ -1,0 +1,856 @@
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 1
+
+
+   1              		.code	16
+   2              		.file	"hw.c"
+   3              		.section	.debug_abbrev,"",%progbits
+   4              	.Ldebug_abbrev0:
+   5              		.section	.debug_info,"",%progbits
+   6              	.Ldebug_info0:
+   7              		.section	.debug_line,"",%progbits
+   8              	.Ldebug_line0:
+   9 0000 88000000 		.text
+   9      02004F00 
+   9      00000201 
+   9      FB0E0D00 
+   9      01010101 
+  10              	.Ltext0:
+  11              		.align	2
+  12              		.global	immediateIoInit
+  13              		.code 16
+  14              		.thumb_func
+  15              		.type	immediateIoInit, %function
+  16              	immediateIoInit:
+  17              	.LFB2:
+  18              		.file 1 "hw.c"
+   1:hw.c          **** /******************************************************************************
+   2:hw.c          ****  *
+   3:hw.c          ****  * Copyright:
+   4:hw.c          ****  *    (C) 2006 Embedded Artists AB
+   5:hw.c          ****  *
+   6:hw.c          ****  * File:
+   7:hw.c          ****  *    hw.c
+   8:hw.c          ****  *
+   9:hw.c          ****  * Description:
+  10:hw.c          ****  *    Implements hardware specific routines
+  11:hw.c          ****  *
+  12:hw.c          ****  *****************************************************************************/
+  13:hw.c          **** 
+  14:hw.c          **** /******************************************************************************
+  15:hw.c          ****  * Includes
+  16:hw.c          ****  *****************************************************************************/
+  17:hw.c          **** #include "../pre_emptive_os/api/osapi.h"
+  18:hw.c          **** #include "../pre_emptive_os/api/general.h"
+  19:hw.c          **** #include <lpc2xxx.h>
+  20:hw.c          **** 
+  21:hw.c          **** #include "hw.h"
+  22:hw.c          **** #include "pins.h"
+  23:hw.c          **** 
+  24:hw.c          **** 
+  25:hw.c          **** /******************************************************************************
+  26:hw.c          ****  * Typedefs and defines
+  27:hw.c          ****  *****************************************************************************/
+  28:hw.c          **** 
+  29:hw.c          **** 
+  30:hw.c          **** /*****************************************************************************
+  31:hw.c          ****  * Global variables
+  32:hw.c          ****  ****************************************************************************/
+  33:hw.c          **** tBool ver1_0;
+  34:hw.c          **** tBool ver1_1;
+  35:hw.c          **** 
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 2
+
+
+  36:hw.c          **** /*****************************************************************************
+  37:hw.c          ****  * Local variables
+  38:hw.c          ****  ****************************************************************************/
+  39:hw.c          **** //static tU8 greenLedShadow;
+  40:hw.c          **** //static tU8 btResetShadow;
+  41:hw.c          **** 
+  42:hw.c          **** /*****************************************************************************
+  43:hw.c          ****  * Local prototypes
+  44:hw.c          ****  ****************************************************************************/
+  45:hw.c          **** 
+  46:hw.c          **** 
+  47:hw.c          **** /*****************************************************************************
+  48:hw.c          ****  *
+  49:hw.c          ****  * Description:
+  50:hw.c          ****  *    Initialize the io-pins and find out if HW is ver 1.0 or ver 1.1
+  51:hw.c          ****  *
+  52:hw.c          ****  ****************************************************************************/
+  53:hw.c          **** void
+  54:hw.c          **** immediateIoInit(void)
+  55:hw.c          **** {
+  19              		.loc 1 55 0
+  56:hw.c          ****   //tU8 initCommand[] = {0x12, 0x97, 0x80, 0x00, 0x40, 0x00, 0x14, 0x00, 0x00};
+  57:hw.c          ****   //                                                         04 = LCD_RST# low
+  58:hw.c          ****   //                                                         10 = BT_RST# low
+  59:hw.c          **** 
+  60:hw.c          ****   //make all key signals as inputs
+  61:hw.c          ****   //IODIR &= ~(KEYPIN_CENTER | KEYPIN_UP | KEYPIN_DOWN | KEYPIN_LEFT | KEYPIN_RIGHT);
+  62:hw.c          **** 
+  63:hw.c          ****   IODIR |= BUZZER_PIN;
+  20              		.loc 1 63 0
+  21 0000 0A49     		ldr	r1, .L3
+  22 0002 8022     		mov	r2, #128
+  23 0004 0B68     		ldr	r3, [r1]
+  64:hw.c          ****   IOSET  = BUZZER_PIN;
+  24              		.loc 1 64 0
+  25 0006 0A48     		ldr	r0, .L3+4
+  26              		.loc 1 63 0
+  27 0008 9201     		lsl	r2, r2, #6
+  28 000a 1343     		orr	r3, r3, r2
+  29 000c 0B60     		str	r3, [r1]
+  30              		.loc 1 64 0
+  31 000e 0260     		str	r2, [r0]
+  65:hw.c          **** 
+  66:hw.c          ****   IODIR |= BACKLIGHT_PIN;
+  32              		.loc 1 66 0
+  33 0010 8023     		mov	r3, #128
+  34 0012 0A68     		ldr	r2, [r1]
+  35 0014 5B01     		lsl	r3, r3, #5
+  36 0016 1A43     		orr	r2, r2, r3
+  37 0018 0A60     		str	r2, [r1]
+  67:hw.c          ****   IOSET  = BACKLIGHT_PIN;
+  38              		.loc 1 67 0
+  39 001a 0360     		str	r3, [r0]
+  68:hw.c          **** 
+  69:hw.c          ****   //initialize PCA9532
+  70:hw.c          ****   //i2cInit();
+  71:hw.c          ****  // if (I2C_CODE_OK == pca9532(initCommand, sizeof(initCommand), NULL, 0))
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 3
+
+
+  72:hw.c          ****   //{
+  73:hw.c          ****    // ver1_0 = FALSE;
+  74:hw.c          ****   //  ver1_1 = TRUE;
+  75:hw.c          ****   //  greenLedShadow = FALSE;
+  76:hw.c          ****   //  btResetShadow  = TRUE;
+  77:hw.c          ****   //}
+  78:hw.c          **** 
+  79:hw.c          ****   //else
+  80:hw.c          ****   //{
+  81:hw.c          ****     //ver1_0 = TRUE;
+  82:hw.c          ****     //ver1_1 = FALSE;
+  83:hw.c          ****     
+  84:hw.c          **** 	//IODIR |= LCD_RST;
+  85:hw.c          ****     //IOCLR  = LCD_RST;
+  86:hw.c          ****     
+  87:hw.c          ****     //IODIR |= BT_RST;
+  88:hw.c          ****     //IOCLR  = BT_RST;
+  89:hw.c          ****     
+  90:hw.c          ****     IODIR |= (LED_GREEN_PIN | LED_RED_PIN);
+  40              		.loc 1 90 0
+  41 001c A023     		mov	r3, #160
+  42 001e 0A68     		ldr	r2, [r1]
+  43 0020 DB05     		lsl	r3, r3, #23
+  44 0022 1A43     		orr	r2, r2, r3
+  45 0024 0A60     		str	r2, [r1]
+  46              		.loc 1 55 0
+  47              		@ lr needed for prologue
+  91:hw.c          ****     IOSET  = (LED_GREEN_PIN | LED_RED_PIN);
+  48              		.loc 1 91 0
+  49 0026 0360     		str	r3, [r0]
+  92:hw.c          ****   }
+  50              		.loc 1 92 0
+  51              		@ sp needed for prologue
+  52 0028 7047     		bx	lr
+  53              	.L4:
+  54 002a 0000     		.align	2
+  55              	.L3:
+  56 002c 088002E0 		.word	-536707064
+  57 0030 048002E0 		.word	-536707068
+  58              	.LFE2:
+  59              		.size	immediateIoInit, .-immediateIoInit
+  60              		.align	2
+  61              		.global	setBuzzer
+  62              		.code 16
+  63              		.thumb_func
+  64              		.type	setBuzzer, %function
+  65              	setBuzzer:
+  66              	.LFB3:
+  93:hw.c          **** 
+  94:hw.c          **** 
+  95:hw.c          **** 
+  96:hw.c          **** 
+  97:hw.c          **** /*****************************************************************************
+  98:hw.c          ****  *
+  99:hw.c          ****  * Description:
+ 100:hw.c          ****  *    Controls the buzzer (on or off)
+ 101:hw.c          ****  *
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 4
+
+
+ 102:hw.c          ****  ****************************************************************************/
+ 103:hw.c          **** void
+ 104:hw.c          **** setBuzzer(tBool on)
+ 105:hw.c          **** {
+  67              		.loc 1 105 0
+  68              	.LVL0:
+  69 0034 0006     		lsl	r0, r0, #24
+  70              	.LVL1:
+  71 0036 000E     		lsr	r0, r0, #24
+  72              	.LVL2:
+  73              		@ lr needed for prologue
+ 106:hw.c          ****   if (TRUE == on)
+  74              		.loc 1 106 0
+  75 0038 0128     		cmp	r0, #1
+  76 003a 03D1     		bne	.L6
+ 107:hw.c          ****     IOCLR = BUZZER_PIN;
+  77              		.loc 1 107 0
+  78 003c 8023     		mov	r3, #128
+  79 003e 044A     		ldr	r2, .L11
+  80 0040 9B01     		lsl	r3, r3, #6
+  81 0042 02E0     		b	.L10
+  82              	.L6:
+ 108:hw.c          ****   else
+ 109:hw.c          ****     IOSET = BUZZER_PIN;
+  83              		.loc 1 109 0
+  84 0044 8023     		mov	r3, #128
+  85 0046 034A     		ldr	r2, .L11+4
+  86 0048 9B01     		lsl	r3, r3, #6
+  87              	.L10:
+  88 004a 1360     		str	r3, [r2]
+ 110:hw.c          **** }
+  89              		.loc 1 110 0
+  90              		@ sp needed for prologue
+  91 004c 7047     		bx	lr
+  92              	.L12:
+  93 004e 0000     		.align	2
+  94              	.L11:
+  95 0050 0C8002E0 		.word	-536707060
+  96 0054 048002E0 		.word	-536707068
+  97              	.LFE3:
+  98              		.size	setBuzzer, .-setBuzzer
+  99              		.align	2
+ 100              		.global	setLED
+ 101              		.code 16
+ 102              		.thumb_func
+ 103              		.type	setLED, %function
+ 104              	setLED:
+ 105              	.LFB4:
+ 111:hw.c          **** 
+ 112:hw.c          **** 
+ 113:hw.c          **** /*****************************************************************************
+ 114:hw.c          ****  *
+ 115:hw.c          ****  * Description:
+ 116:hw.c          ****  *    Controls the two LEDs
+ 117:hw.c          ****  *
+ 118:hw.c          ****  ****************************************************************************/
+ 119:hw.c          **** void
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 5
+
+
+ 120:hw.c          **** setLED(tU8 ledSelect, tBool ledState)
+ 121:hw.c          **** {
+ 106              		.loc 1 121 0
+ 107              	.LVL3:
+ 122:hw.c          ****   //tU8 commandLedGreen[] = {0x07, 0x00};
+ 123:hw.c          ****   //                               40 = LED on
+ 124:hw.c          ****   //                               00 = LED off
+ 125:hw.c          ****   //                               10 = BT_RST# low   (must handle this also)
+ 126:hw.c          **** 
+ 127:hw.c          ****   //tU8 commandLedRed[] =   {0x08, 0x00};
+ 128:hw.c          ****   //                               01 = LED on
+ 129:hw.c          ****   //                               00 = LED off
+ 130:hw.c          **** 
+ 131:hw.c          ****   //check if ver 1.0 of HW
+ 132:hw.c          ****   if (TRUE == ver1_0)
+ 108              		.loc 1 132 0
+ 109 0058 0F4B     		ldr	r3, .L27
+ 110 005a 1B78     		ldrb	r3, [r3]
+ 111              		.loc 1 121 0
+ 112 005c 0006     		lsl	r0, r0, #24
+ 113              	.LVL4:
+ 114 005e 0906     		lsl	r1, r1, #24
+ 115              	.LVL5:
+ 116              		@ lr needed for prologue
+ 117              		.loc 1 121 0
+ 118 0060 000E     		lsr	r0, r0, #24
+ 119              	.LVL6:
+ 120 0062 090E     		lsr	r1, r1, #24
+ 121              	.LVL7:
+ 122              		.loc 1 132 0
+ 123 0064 012B     		cmp	r3, #1
+ 124 0066 15D1     		bne	.L23
+ 133:hw.c          ****   {
+ 134:hw.c          ****     if (LED_GREEN == ledSelect)
+ 125              		.loc 1 134 0
+ 126 0068 0128     		cmp	r0, #1
+ 127 006a 07D1     		bne	.L16
+ 135:hw.c          ****     {
+ 136:hw.c          ****       if (TRUE == ledState)
+ 128              		.loc 1 136 0
+ 129 006c 0129     		cmp	r1, #1
+ 130 006e 02D1     		bne	.L18
+ 137:hw.c          ****         IOCLR = LED_GREEN_PIN;
+ 131              		.loc 1 137 0
+ 132 0070 8023     		mov	r3, #128
+ 133 0072 5B05     		lsl	r3, r3, #21
+ 134 0074 08E0     		b	.L25
+ 135              	.L18:
+ 138:hw.c          ****       else
+ 139:hw.c          ****         IOSET = LED_GREEN_PIN;
+ 136              		.loc 1 139 0
+ 137 0076 8023     		mov	r3, #128
+ 138 0078 5B05     		lsl	r3, r3, #21
+ 139 007a 09E0     		b	.L26
+ 140              	.L16:
+ 140:hw.c          ****     }
+ 141:hw.c          ****     else if (LED_RED == ledSelect)
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 6
+
+
+ 141              		.loc 1 141 0
+ 142 007c 0228     		cmp	r0, #2
+ 143 007e 09D1     		bne	.L23
+ 142:hw.c          ****     {
+ 143:hw.c          ****       if (TRUE == ledState)
+ 144              		.loc 1 143 0
+ 145 0080 0129     		cmp	r1, #1
+ 146 0082 03D1     		bne	.L21
+ 144:hw.c          ****         IOCLR = LED_RED_PIN;
+ 147              		.loc 1 144 0
+ 148 0084 8023     		mov	r3, #128
+ 149 0086 DB05     		lsl	r3, r3, #23
+ 150              	.L25:
+ 151 0088 044A     		ldr	r2, .L27+4
+ 152 008a 02E0     		b	.L24
+ 153              	.L21:
+ 145:hw.c          ****       else
+ 146:hw.c          ****         IOSET = LED_RED_PIN;
+ 154              		.loc 1 146 0
+ 155 008c 8023     		mov	r3, #128
+ 156 008e DB05     		lsl	r3, r3, #23
+ 157              	.L26:
+ 158 0090 034A     		ldr	r2, .L27+8
+ 159              	.L24:
+ 160 0092 1360     		str	r3, [r2]
+ 161              	.L23:
+ 147:hw.c          ****     }
+ 148:hw.c          ****   }
+ 149:hw.c          **** }
+ 162              		.loc 1 149 0
+ 163              		@ sp needed for prologue
+ 164 0094 7047     		bx	lr
+ 165              	.L28:
+ 166 0096 0000     		.align	2
+ 167              	.L27:
+ 168 0098 00000000 		.word	ver1_0
+ 169 009c 0C8002E0 		.word	-536707060
+ 170 00a0 048002E0 		.word	-536707068
+ 171              	.LFE4:
+ 172              		.size	setLED, .-setLED
+ 173              		.comm	ver1_0,1,1
+ 174              		.comm	ver1_1,1,1
+ 175              		.section	.debug_frame,"",%progbits
+ 176              	.Lframe0:
+ 177 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
+ 178              	.LSCIE0:
+ 179 0004 FFFFFFFF 		.4byte	0xffffffff
+ 180 0008 01       		.byte	0x1
+ 181 0009 00       		.ascii	"\000"
+ 182 000a 01       		.uleb128 0x1
+ 183 000b 7C       		.sleb128 -4
+ 184 000c 0E       		.byte	0xe
+ 185 000d 0C       		.byte	0xc
+ 186 000e 0D       		.uleb128 0xd
+ 187 000f 00       		.uleb128 0x0
+ 188              		.align	2
+ 189              	.LECIE0:
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 7
+
+
+ 190              	.LSFDE0:
+ 191 0010 0C000000 		.4byte	.LEFDE0-.LASFDE0
+ 192              	.LASFDE0:
+ 193 0014 00000000 		.4byte	.Lframe0
+ 194 0018 00000000 		.4byte	.LFB2
+ 195 001c 34000000 		.4byte	.LFE2-.LFB2
+ 196              		.align	2
+ 197              	.LEFDE0:
+ 198              	.LSFDE2:
+ 199 0020 0C000000 		.4byte	.LEFDE2-.LASFDE2
+ 200              	.LASFDE2:
+ 201 0024 00000000 		.4byte	.Lframe0
+ 202 0028 34000000 		.4byte	.LFB3
+ 203 002c 24000000 		.4byte	.LFE3-.LFB3
+ 204              		.align	2
+ 205              	.LEFDE2:
+ 206              	.LSFDE4:
+ 207 0030 0C000000 		.4byte	.LEFDE4-.LASFDE4
+ 208              	.LASFDE4:
+ 209 0034 00000000 		.4byte	.Lframe0
+ 210 0038 58000000 		.4byte	.LFB4
+ 211 003c 4C000000 		.4byte	.LFE4-.LFB4
+ 212              		.align	2
+ 213              	.LEFDE4:
+ 214              		.file 2 "./startup/../pre_emptive_os/api/../api/general.h"
+ 215              		.text
+ 216              	.Letext0:
+ 217              		.section	.debug_loc,"",%progbits
+ 218              	.Ldebug_loc0:
+ 219              	.LLST2:
+ 220 0000 34000000 		.4byte	.LVL0-.Ltext0
+ 221 0004 36000000 		.4byte	.LVL1-.Ltext0
+ 222 0008 0100     		.2byte	0x1
+ 223 000a 50       		.byte	0x50
+ 224 000b 38000000 		.4byte	.LVL2-.Ltext0
+ 225 000f 58000000 		.4byte	.LFE3-.Ltext0
+ 226 0013 0100     		.2byte	0x1
+ 227 0015 50       		.byte	0x50
+ 228 0016 00000000 		.4byte	0x0
+ 229 001a 00000000 		.4byte	0x0
+ 230              	.LLST4:
+ 231 001e 58000000 		.4byte	.LVL3-.Ltext0
+ 232 0022 5E000000 		.4byte	.LVL4-.Ltext0
+ 233 0026 0100     		.2byte	0x1
+ 234 0028 50       		.byte	0x50
+ 235 0029 62000000 		.4byte	.LVL6-.Ltext0
+ 236 002d A4000000 		.4byte	.LFE4-.Ltext0
+ 237 0031 0100     		.2byte	0x1
+ 238 0033 50       		.byte	0x50
+ 239 0034 00000000 		.4byte	0x0
+ 240 0038 00000000 		.4byte	0x0
+ 241              	.LLST5:
+ 242 003c 58000000 		.4byte	.LVL3-.Ltext0
+ 243 0040 60000000 		.4byte	.LVL5-.Ltext0
+ 244 0044 0100     		.2byte	0x1
+ 245 0046 51       		.byte	0x51
+ 246 0047 64000000 		.4byte	.LVL7-.Ltext0
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 8
+
+
+ 247 004b A4000000 		.4byte	.LFE4-.Ltext0
+ 248 004f 0100     		.2byte	0x1
+ 249 0051 51       		.byte	0x51
+ 250 0052 00000000 		.4byte	0x0
+ 251 0056 00000000 		.4byte	0x0
+ 252              		.section	.debug_info
+ 253 0000 FC000000 		.4byte	0xfc
+ 254 0004 0200     		.2byte	0x2
+ 255 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 256 000a 04       		.byte	0x4
+ 257 000b 01       		.uleb128 0x1
+ 258 000c 00000000 		.4byte	.Ldebug_line0
+ 259 0010 A4000000 		.4byte	.Letext0
+ 260 0014 00000000 		.4byte	.Ltext0
+ 261 0018 A1000000 		.4byte	.LASF13
+ 262 001c 01       		.byte	0x1
+ 263 001d 10000000 		.4byte	.LASF14
+ 264 0021 56000000 		.4byte	.LASF15
+ 265 0025 02       		.uleb128 0x2
+ 266 0026 74553800 		.ascii	"tU8\000"
+ 267 002a 02       		.byte	0x2
+ 268 002b 47       		.byte	0x47
+ 269 002c 30000000 		.4byte	0x30
+ 270 0030 03       		.uleb128 0x3
+ 271 0031 26000000 		.4byte	.LASF0
+ 272 0035 01       		.byte	0x1
+ 273 0036 08       		.byte	0x8
+ 274 0037 03       		.uleb128 0x3
+ 275 0038 81000000 		.4byte	.LASF1
+ 276 003c 02       		.byte	0x2
+ 277 003d 07       		.byte	0x7
+ 278 003e 03       		.uleb128 0x3
+ 279 003f 94000000 		.4byte	.LASF2
+ 280 0043 04       		.byte	0x4
+ 281 0044 07       		.byte	0x7
+ 282 0045 03       		.uleb128 0x3
+ 283 0046 C8000000 		.4byte	.LASF3
+ 284 004a 01       		.byte	0x1
+ 285 004b 06       		.byte	0x6
+ 286 004c 03       		.uleb128 0x3
+ 287 004d B4000000 		.4byte	.LASF4
+ 288 0051 02       		.byte	0x2
+ 289 0052 05       		.byte	0x5
+ 290 0053 04       		.uleb128 0x4
+ 291 0054 696E7400 		.ascii	"int\000"
+ 292 0058 04       		.byte	0x4
+ 293 0059 05       		.byte	0x5
+ 294 005a 05       		.uleb128 0x5
+ 295 005b D4000000 		.4byte	.LASF5
+ 296 005f 02       		.byte	0x2
+ 297 0060 4D       		.byte	0x4d
+ 298 0061 30000000 		.4byte	0x30
+ 299 0065 03       		.uleb128 0x3
+ 300 0066 44000000 		.4byte	.LASF6
+ 301 006a 04       		.byte	0x4
+ 302 006b 07       		.byte	0x7
+ 303 006c 06       		.uleb128 0x6
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 9
+
+
+ 304 006d 01       		.byte	0x1
+ 305 006e 34000000 		.4byte	.LASF16
+ 306 0072 01       		.byte	0x1
+ 307 0073 37       		.byte	0x37
+ 308 0074 01       		.byte	0x1
+ 309 0075 00000000 		.4byte	.LFB2
+ 310 0079 34000000 		.4byte	.LFE2
+ 311 007d 01       		.byte	0x1
+ 312 007e 5D       		.byte	0x5d
+ 313 007f 07       		.uleb128 0x7
+ 314 0080 A5000000 		.4byte	0xa5
+ 315 0084 01       		.byte	0x1
+ 316 0085 BE000000 		.4byte	.LASF7
+ 317 0089 01       		.byte	0x1
+ 318 008a 69       		.byte	0x69
+ 319 008b 01       		.byte	0x1
+ 320 008c 34000000 		.4byte	.LFB3
+ 321 0090 58000000 		.4byte	.LFE3
+ 322 0094 01       		.byte	0x1
+ 323 0095 5D       		.byte	0x5d
+ 324 0096 08       		.uleb128 0x8
+ 325 0097 6F6E00   		.ascii	"on\000"
+ 326 009a 01       		.byte	0x1
+ 327 009b 68       		.byte	0x68
+ 328 009c 5A000000 		.4byte	0x5a
+ 329 00a0 00000000 		.4byte	.LLST2
+ 330 00a4 00       		.byte	0x0
+ 331 00a5 07       		.uleb128 0x7
+ 332 00a6 DB000000 		.4byte	0xdb
+ 333 00aa 01       		.byte	0x1
+ 334 00ab 00000000 		.4byte	.LASF8
+ 335 00af 01       		.byte	0x1
+ 336 00b0 79       		.byte	0x79
+ 337 00b1 01       		.byte	0x1
+ 338 00b2 58000000 		.4byte	.LFB4
+ 339 00b6 A4000000 		.4byte	.LFE4
+ 340 00ba 01       		.byte	0x1
+ 341 00bb 5D       		.byte	0x5d
+ 342 00bc 09       		.uleb128 0x9
+ 343 00bd 1C000000 		.4byte	.LASF9
+ 344 00c1 01       		.byte	0x1
+ 345 00c2 78       		.byte	0x78
+ 346 00c3 25000000 		.4byte	0x25
+ 347 00c7 1E000000 		.4byte	.LLST4
+ 348 00cb 09       		.uleb128 0x9
+ 349 00cc 07000000 		.4byte	.LASF10
+ 350 00d0 01       		.byte	0x1
+ 351 00d1 78       		.byte	0x78
+ 352 00d2 5A000000 		.4byte	0x5a
+ 353 00d6 3C000000 		.4byte	.LLST5
+ 354 00da 00       		.byte	0x0
+ 355 00db 0A       		.uleb128 0xa
+ 356 00dc AD000000 		.4byte	.LASF11
+ 357 00e0 01       		.byte	0x1
+ 358 00e1 21       		.byte	0x21
+ 359 00e2 5A000000 		.4byte	0x5a
+ 360 00e6 01       		.byte	0x1
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 10
+
+
+ 361 00e7 05       		.byte	0x5
+ 362 00e8 03       		.byte	0x3
+ 363 00e9 00000000 		.4byte	ver1_0
+ 364 00ed 0A       		.uleb128 0xa
+ 365 00ee 15000000 		.4byte	.LASF12
+ 366 00f2 01       		.byte	0x1
+ 367 00f3 22       		.byte	0x22
+ 368 00f4 5A000000 		.4byte	0x5a
+ 369 00f8 01       		.byte	0x1
+ 370 00f9 05       		.byte	0x5
+ 371 00fa 03       		.byte	0x3
+ 372 00fb 00000000 		.4byte	ver1_1
+ 373 00ff 00       		.byte	0x0
+ 374              		.section	.debug_abbrev
+ 375 0000 01       		.uleb128 0x1
+ 376 0001 11       		.uleb128 0x11
+ 377 0002 01       		.byte	0x1
+ 378 0003 10       		.uleb128 0x10
+ 379 0004 06       		.uleb128 0x6
+ 380 0005 12       		.uleb128 0x12
+ 381 0006 01       		.uleb128 0x1
+ 382 0007 11       		.uleb128 0x11
+ 383 0008 01       		.uleb128 0x1
+ 384 0009 25       		.uleb128 0x25
+ 385 000a 0E       		.uleb128 0xe
+ 386 000b 13       		.uleb128 0x13
+ 387 000c 0B       		.uleb128 0xb
+ 388 000d 03       		.uleb128 0x3
+ 389 000e 0E       		.uleb128 0xe
+ 390 000f 1B       		.uleb128 0x1b
+ 391 0010 0E       		.uleb128 0xe
+ 392 0011 00       		.byte	0x0
+ 393 0012 00       		.byte	0x0
+ 394 0013 02       		.uleb128 0x2
+ 395 0014 16       		.uleb128 0x16
+ 396 0015 00       		.byte	0x0
+ 397 0016 03       		.uleb128 0x3
+ 398 0017 08       		.uleb128 0x8
+ 399 0018 3A       		.uleb128 0x3a
+ 400 0019 0B       		.uleb128 0xb
+ 401 001a 3B       		.uleb128 0x3b
+ 402 001b 0B       		.uleb128 0xb
+ 403 001c 49       		.uleb128 0x49
+ 404 001d 13       		.uleb128 0x13
+ 405 001e 00       		.byte	0x0
+ 406 001f 00       		.byte	0x0
+ 407 0020 03       		.uleb128 0x3
+ 408 0021 24       		.uleb128 0x24
+ 409 0022 00       		.byte	0x0
+ 410 0023 03       		.uleb128 0x3
+ 411 0024 0E       		.uleb128 0xe
+ 412 0025 0B       		.uleb128 0xb
+ 413 0026 0B       		.uleb128 0xb
+ 414 0027 3E       		.uleb128 0x3e
+ 415 0028 0B       		.uleb128 0xb
+ 416 0029 00       		.byte	0x0
+ 417 002a 00       		.byte	0x0
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 11
+
+
+ 418 002b 04       		.uleb128 0x4
+ 419 002c 24       		.uleb128 0x24
+ 420 002d 00       		.byte	0x0
+ 421 002e 03       		.uleb128 0x3
+ 422 002f 08       		.uleb128 0x8
+ 423 0030 0B       		.uleb128 0xb
+ 424 0031 0B       		.uleb128 0xb
+ 425 0032 3E       		.uleb128 0x3e
+ 426 0033 0B       		.uleb128 0xb
+ 427 0034 00       		.byte	0x0
+ 428 0035 00       		.byte	0x0
+ 429 0036 05       		.uleb128 0x5
+ 430 0037 16       		.uleb128 0x16
+ 431 0038 00       		.byte	0x0
+ 432 0039 03       		.uleb128 0x3
+ 433 003a 0E       		.uleb128 0xe
+ 434 003b 3A       		.uleb128 0x3a
+ 435 003c 0B       		.uleb128 0xb
+ 436 003d 3B       		.uleb128 0x3b
+ 437 003e 0B       		.uleb128 0xb
+ 438 003f 49       		.uleb128 0x49
+ 439 0040 13       		.uleb128 0x13
+ 440 0041 00       		.byte	0x0
+ 441 0042 00       		.byte	0x0
+ 442 0043 06       		.uleb128 0x6
+ 443 0044 2E       		.uleb128 0x2e
+ 444 0045 00       		.byte	0x0
+ 445 0046 3F       		.uleb128 0x3f
+ 446 0047 0C       		.uleb128 0xc
+ 447 0048 03       		.uleb128 0x3
+ 448 0049 0E       		.uleb128 0xe
+ 449 004a 3A       		.uleb128 0x3a
+ 450 004b 0B       		.uleb128 0xb
+ 451 004c 3B       		.uleb128 0x3b
+ 452 004d 0B       		.uleb128 0xb
+ 453 004e 27       		.uleb128 0x27
+ 454 004f 0C       		.uleb128 0xc
+ 455 0050 11       		.uleb128 0x11
+ 456 0051 01       		.uleb128 0x1
+ 457 0052 12       		.uleb128 0x12
+ 458 0053 01       		.uleb128 0x1
+ 459 0054 40       		.uleb128 0x40
+ 460 0055 0A       		.uleb128 0xa
+ 461 0056 00       		.byte	0x0
+ 462 0057 00       		.byte	0x0
+ 463 0058 07       		.uleb128 0x7
+ 464 0059 2E       		.uleb128 0x2e
+ 465 005a 01       		.byte	0x1
+ 466 005b 01       		.uleb128 0x1
+ 467 005c 13       		.uleb128 0x13
+ 468 005d 3F       		.uleb128 0x3f
+ 469 005e 0C       		.uleb128 0xc
+ 470 005f 03       		.uleb128 0x3
+ 471 0060 0E       		.uleb128 0xe
+ 472 0061 3A       		.uleb128 0x3a
+ 473 0062 0B       		.uleb128 0xb
+ 474 0063 3B       		.uleb128 0x3b
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 12
+
+
+ 475 0064 0B       		.uleb128 0xb
+ 476 0065 27       		.uleb128 0x27
+ 477 0066 0C       		.uleb128 0xc
+ 478 0067 11       		.uleb128 0x11
+ 479 0068 01       		.uleb128 0x1
+ 480 0069 12       		.uleb128 0x12
+ 481 006a 01       		.uleb128 0x1
+ 482 006b 40       		.uleb128 0x40
+ 483 006c 0A       		.uleb128 0xa
+ 484 006d 00       		.byte	0x0
+ 485 006e 00       		.byte	0x0
+ 486 006f 08       		.uleb128 0x8
+ 487 0070 05       		.uleb128 0x5
+ 488 0071 00       		.byte	0x0
+ 489 0072 03       		.uleb128 0x3
+ 490 0073 08       		.uleb128 0x8
+ 491 0074 3A       		.uleb128 0x3a
+ 492 0075 0B       		.uleb128 0xb
+ 493 0076 3B       		.uleb128 0x3b
+ 494 0077 0B       		.uleb128 0xb
+ 495 0078 49       		.uleb128 0x49
+ 496 0079 13       		.uleb128 0x13
+ 497 007a 02       		.uleb128 0x2
+ 498 007b 06       		.uleb128 0x6
+ 499 007c 00       		.byte	0x0
+ 500 007d 00       		.byte	0x0
+ 501 007e 09       		.uleb128 0x9
+ 502 007f 05       		.uleb128 0x5
+ 503 0080 00       		.byte	0x0
+ 504 0081 03       		.uleb128 0x3
+ 505 0082 0E       		.uleb128 0xe
+ 506 0083 3A       		.uleb128 0x3a
+ 507 0084 0B       		.uleb128 0xb
+ 508 0085 3B       		.uleb128 0x3b
+ 509 0086 0B       		.uleb128 0xb
+ 510 0087 49       		.uleb128 0x49
+ 511 0088 13       		.uleb128 0x13
+ 512 0089 02       		.uleb128 0x2
+ 513 008a 06       		.uleb128 0x6
+ 514 008b 00       		.byte	0x0
+ 515 008c 00       		.byte	0x0
+ 516 008d 0A       		.uleb128 0xa
+ 517 008e 34       		.uleb128 0x34
+ 518 008f 00       		.byte	0x0
+ 519 0090 03       		.uleb128 0x3
+ 520 0091 0E       		.uleb128 0xe
+ 521 0092 3A       		.uleb128 0x3a
+ 522 0093 0B       		.uleb128 0xb
+ 523 0094 3B       		.uleb128 0x3b
+ 524 0095 0B       		.uleb128 0xb
+ 525 0096 49       		.uleb128 0x49
+ 526 0097 13       		.uleb128 0x13
+ 527 0098 3F       		.uleb128 0x3f
+ 528 0099 0C       		.uleb128 0xc
+ 529 009a 02       		.uleb128 0x2
+ 530 009b 0A       		.uleb128 0xa
+ 531 009c 00       		.byte	0x0
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 13
+
+
+ 532 009d 00       		.byte	0x0
+ 533 009e 00       		.byte	0x0
+ 534              		.section	.debug_pubnames,"",%progbits
+ 535 0000 51000000 		.4byte	0x51
+ 536 0004 0200     		.2byte	0x2
+ 537 0006 00000000 		.4byte	.Ldebug_info0
+ 538 000a 00010000 		.4byte	0x100
+ 539 000e 6C000000 		.4byte	0x6c
+ 540 0012 696D6D65 		.ascii	"immediateIoInit\000"
+ 540      64696174 
+ 540      65496F49 
+ 540      6E697400 
+ 541 0022 7F000000 		.4byte	0x7f
+ 542 0026 73657442 		.ascii	"setBuzzer\000"
+ 542      757A7A65 
+ 542      7200
+ 543 0030 A5000000 		.4byte	0xa5
+ 544 0034 7365744C 		.ascii	"setLED\000"
+ 544      454400
+ 545 003b DB000000 		.4byte	0xdb
+ 546 003f 76657231 		.ascii	"ver1_0\000"
+ 546      5F3000
+ 547 0046 ED000000 		.4byte	0xed
+ 548 004a 76657231 		.ascii	"ver1_1\000"
+ 548      5F3100
+ 549 0051 00000000 		.4byte	0x0
+ 550              		.section	.debug_aranges,"",%progbits
+ 551 0000 1C000000 		.4byte	0x1c
+ 552 0004 0200     		.2byte	0x2
+ 553 0006 00000000 		.4byte	.Ldebug_info0
+ 554 000a 04       		.byte	0x4
+ 555 000b 00       		.byte	0x0
+ 556 000c 0000     		.2byte	0x0
+ 557 000e 0000     		.2byte	0x0
+ 558 0010 00000000 		.4byte	.Ltext0
+ 559 0014 A4000000 		.4byte	.Letext0-.Ltext0
+ 560 0018 00000000 		.4byte	0x0
+ 561 001c 00000000 		.4byte	0x0
+ 562              		.section	.debug_str,"MS",%progbits,1
+ 563              	.LASF8:
+ 564 0000 7365744C 		.ascii	"setLED\000"
+ 564      454400
+ 565              	.LASF10:
+ 566 0007 6C656453 		.ascii	"ledState\000"
+ 566      74617465 
+ 566      00
+ 567              	.LASF14:
+ 568 0010 68772E63 		.ascii	"hw.c\000"
+ 568      00
+ 569              	.LASF12:
+ 570 0015 76657231 		.ascii	"ver1_1\000"
+ 570      5F3100
+ 571              	.LASF9:
+ 572 001c 6C656453 		.ascii	"ledSelect\000"
+ 572      656C6563 
+ 572      7400
+ 573              	.LASF0:
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 14
+
+
+ 574 0026 756E7369 		.ascii	"unsigned char\000"
+ 574      676E6564 
+ 574      20636861 
+ 574      7200
+ 575              	.LASF16:
+ 576 0034 696D6D65 		.ascii	"immediateIoInit\000"
+ 576      64696174 
+ 576      65496F49 
+ 576      6E697400 
+ 577              	.LASF6:
+ 578 0044 6C6F6E67 		.ascii	"long unsigned int\000"
+ 578      20756E73 
+ 578      69676E65 
+ 578      6420696E 
+ 578      7400
+ 579              	.LASF15:
+ 580 0056 2F637967 		.ascii	"/cygdrive/c/Users/embedded/Desktop/PROGRAM\000"
+ 580      64726976 
+ 580      652F632F 
+ 580      55736572 
+ 580      732F656D 
+ 581              	.LASF1:
+ 582 0081 73686F72 		.ascii	"short unsigned int\000"
+ 582      7420756E 
+ 582      7369676E 
+ 582      65642069 
+ 582      6E7400
+ 583              	.LASF2:
+ 584 0094 756E7369 		.ascii	"unsigned int\000"
+ 584      676E6564 
+ 584      20696E74 
+ 584      00
+ 585              	.LASF13:
+ 586 00a1 474E5520 		.ascii	"GNU C 4.1.1\000"
+ 586      4320342E 
+ 586      312E3100 
+ 587              	.LASF11:
+ 588 00ad 76657231 		.ascii	"ver1_0\000"
+ 588      5F3000
+ 589              	.LASF4:
+ 590 00b4 73686F72 		.ascii	"short int\000"
+ 590      7420696E 
+ 590      7400
+ 591              	.LASF7:
+ 592 00be 73657442 		.ascii	"setBuzzer\000"
+ 592      757A7A65 
+ 592      7200
+ 593              	.LASF3:
+ 594 00c8 7369676E 		.ascii	"signed char\000"
+ 594      65642063 
+ 594      68617200 
+ 595              	.LASF5:
+ 596 00d4 74426F6F 		.ascii	"tBool\000"
+ 596      6C00
+ 597              		.ident	"GCC: (GNU) 4.1.1"
+ARM GAS  /cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 hw.c
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s:1      .text:00000000 $t
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s:16     .text:00000000 immediateIoInit
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s:56     .text:0000002c $d
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s:65     .text:00000034 setBuzzer
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s:62     .text:00000034 $t
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s:95     .text:00000050 $d
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s:104    .text:00000058 setLED
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s:101    .text:00000058 $t
+/cygdrive/c/Users/embedded/AppData/Local/Temp/cca8RvyE.s:168    .text:00000098 $d
+                            *COM*:00000001 ver1_0
+                            *COM*:00000001 ver1_1
+
+NO UNDEFINED SYMBOLS
